@@ -31,8 +31,8 @@ function addQuote() {
 }
 
 function  displayRandomQuote() {
-  const random = Math.floor(Math.random() * quotes.length);
-  const quoteOutput = quotes[random];
+  const showRandomQuote = Math.floor(Math.random() * quotes.length);
+  const quoteOutput = quotes[showRandomQuote];
   quoteDisplay.innerHTML = `"${quoteOutput.text}" - ${quoteOutput.category}`;
 }
 
