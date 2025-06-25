@@ -33,7 +33,7 @@ function addQuote() {
 function  displayRandomQuote() {
   const random = Math.floor(Math.random() * quotes.length);
   const quoteOutput = quotes[random];
-  quoteDisplay.textContent = `"${quoteOutput.text}" - ${quoteOutput.category}`;
+  quoteDisplay.innerHTML = `"${quoteOutput.text}" - ${quoteOutput.category}`;
 }
 
 showNewQuote.addEventListener("click", displayRandomQuote);
