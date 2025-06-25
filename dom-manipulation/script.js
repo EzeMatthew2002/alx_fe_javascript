@@ -8,42 +8,55 @@ const quotes = [
   { text: "JavaScript is the duct tape of the Internet.", category: "Tech" },
 ];
 
-const formArea = document.getElementById("formArea");
 
-const quoteInput = document.createElement("input");
-quoteInput.type = "text";
-quoteInput.id = "newQuoteText";
-quoteInput.placeholder = "Enter a new quote";
 
-const categoryInput = document.createElement("input");
-categoryInput.type = "text";
-categoryInput.id = "newQuoteCategory";
-categoryInput.placeholder = "Enter quote category";
+function addQuote() {
+  const createAddQuoteForm = document.getElementById("formArea");
 
-const addBtn = document.createElement("button");
-addBtn.textContent = "Add Quote";
-addBtn.onclick = function () {
-  const text = quoteInput.value.trim();
-  const category = categoryInput.value.trim();
-
-  if (text && category) {
-    const newQuote = {
-      text,
-      category,
-    };
-    quotes.push(newQuote);
-
-    quoteInput.value = "";
-    categoryInput.value = "";
-  } else {
-    alert("Please enter both quote text and category");
+  
+  if (document.getElementById("newQuoteText") || document.getElementById("newQuoteCategory")) {
+    return; 
   }
-};
 
+  const quoteInput = document.createElement("input");
+  quoteInput.type = "text";
+  quoteInput.id = "newQuoteText";
+  quoteInput.placeholder = "Enter a new quote";
 
-formArea.appendChild(quoteInput);
-formArea.appendChild(categoryInput);
-formArea.appendChild(addBtn);
+  const categoryInput = document.createElement("input");
+  categoryInput.type = "text";
+  categoryInput.id = "newQuoteCategory";
+  categoryInput.placeholder = "Enter quote category";
+
+  const addBtn = document.createElement("button");
+  addBtn.textContent = "Add Quote";
+  addBtn.onclick = function () {
+    const text = quoteInput.value.trim();
+    const category = categoryInput.value.trim();
+
+    if (text && category) {
+      const newQuote = {
+        text,
+        category,
+      };
+      quotes.push(newQuote);
+
+      alert("New quote added!");
+
+     
+      createAddQuoteForm.removeChild(quoteInput);
+      createAddQuoteForm.removeChild(categoryInput);
+      createAddQuoteForm.removeChild(addBtn);
+    } else {
+      alert("Please enter both quote text and category");
+    }
+  };
+
+  createAddQuoteForm.appendChild(quoteInput);
+  createAddQuoteForm.appendChild(categoryInput);
+  createAddQuoteForm.appendChild(addBtn);
+}
+addQuote()
 
 function displayRandomQuote() {
   const showRandomQuote = Math.floor(Math.random() * quotes.length);
