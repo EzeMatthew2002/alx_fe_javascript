@@ -9,10 +9,10 @@ const quotes = [
 ];
 
 function addQuote() {
-  let quoteInput = document.getElementById("newQuoteText");
+  let createAddQuoteForm = document.getElementById("newQuoteText");
   let categoryInput = document.getElementById("newQuoteCategory");
 
-  let text = quoteInput.value;
+  let text = createAddQuoteForm.value;
   let category = categoryInput.value;
 
   if (text && category) {
