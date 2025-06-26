@@ -295,6 +295,27 @@ function clearLocalStorage() {
   location.reload(); // Refresh page to reset the app
 }
 
+async function postQuoteToServer(quote) {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(quote)
+    });
+
+    const data = await response.json();
+    console.log('Quote posted to server:', data);
+    alert('Quote successfully posted to server (mock)');
+  } catch (error) {
+    console.error('Error posting to server:', error);
+  }
+}
+
+postQuoteToServer(newQuote);
+
+
 // On load
 loadQuotes();
 createAddQuoteForm();
