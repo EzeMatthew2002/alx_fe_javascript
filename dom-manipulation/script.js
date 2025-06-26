@@ -246,6 +246,68 @@ fetch("https://your-api.com/quotes")
     /* merge logic */
   });
 
+
+  // Simulated Server URL using JSONPlaceholder or mock JSON file (you can replace this with your own server)
+const serverURL = 'https://jsonplaceholder.typicode.com/posts'; // Replace with your real or mock API
+
+// Simulate fetching quotes from the server every 30 seconds
+setInterval(fetchQuotesFromServer, 30000);
+
+// Sync Notification UI
+function showSyncNotification(message) {
+  let notification = document.getElementById('syncNotification');
+  if (!notification) {
+    notification = document.createElement('div');
+    notification.id = 'syncNotification';
+    document.body.appendChild(notification);
+  }
+  notification.innerText = message;
+  notification.style.display = 'block';
+  setTimeout(() => notification.style.display = 'none', 5000);
+}
+
+// Fetch and Sync Quotes from the "server"
+function fetchQuotesFromServer() {
+  fetch(serverURL)
+    .then(response => response.json())
+    .then(serverData => {
+      // Simulate server quote data (replace with real data format if needed)
+      const simulatedQuotes = serverData.slice(0, 5).map(post => ({
+        text: post.title,
+        category: 'server'
+      }));
+
+      let updated = false;
+
+      simulatedQuotes.forEach(serverQuote => {
+        const exists = quotes.some(localQuote =>
+          localQuote.text === serverQuote.text &&
+          localQuote.category === serverQuote.category
+        );
+        if (!exists) {
+          quotes.push(serverQuote);
+          updated = true;
+        }
+      });
+
+      if (updated) {
+        saveQuotes(); // Save merged quotes to localStorage
+        populateCategories();
+        filterQuotes();
+        showSyncNotification("Quotes updated from server.");
+      }
+    })
+    .catch(error => {
+      console.error("Server fetch failed:", error);
+      showSyncNotification("Failed to sync with server.");
+    });
+}
+function clearLocalStorage() {
+  localStorage.clear();
+  alert('Local storage cleared!');
+  location.reload(); // Refresh page to reset the app
+}
+
 // On load
 loadQuotes();
 createAddQuoteForm();

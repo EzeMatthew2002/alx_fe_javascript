@@ -28,6 +28,10 @@
     <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
     <button onclick="exportToJsonFile()">Export Quotes</button>
   </div>
+  <!-- Sync notification (at bottom right) -->
+<div id="syncNotification" style="display: none;"></div>
+<button onclick="clearLocalStorage()">Clear Local Storage</button>
+
 
   <script src="script.js"></script>
 </body>
