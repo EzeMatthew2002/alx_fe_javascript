@@ -267,41 +267,28 @@ function showSyncNotification(message) {
 }
 
 // Fetch and Sync Quotes from the "server"
-function fetchQuotesFromServer() {
-  fetch(serverURL)
-    .then(response => response.json())
-    .then(serverData => {
-      // Simulate server quote data (replace with real data format if needed)
-      const simulatedQuotes = serverData.slice(0, 5).map(post => ({
-        text: post.title,
-        category: 'server'
-      }));
+async function fetchQuotesFromServer() {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts'); // Replace with your actual endpoint
+    const data = await response.json();
 
-      let updated = false;
+    // Simulate quote structure
+    const serverQuotes = data.slice(0, 5).map(post => ({
+      text: post.title,
+      category: 'Server'
+    }));
 
-      simulatedQuotes.forEach(serverQuote => {
-        const exists = quotes.some(localQuote =>
-          localQuote.text === serverQuote.text &&
-          localQuote.category === serverQuote.category
-        );
-        if (!exists) {
-          quotes.push(serverQuote);
-          updated = true;
-        }
-      });
-
-      if (updated) {
-        saveQuotes(); // Save merged quotes to localStorage
-        populateCategories();
-        filterQuotes();
-        showSyncNotification("Quotes updated from server.");
-      }
-    })
-    .catch(error => {
-      console.error("Server fetch failed:", error);
-      showSyncNotification("Failed to sync with server.");
-    });
+    // Conflict resolution: server wins
+    localStorage.setItem('quotes', JSON.stringify(serverQuotes));
+    alert('Quotes synced with server!');
+    quotes = serverQuotes;
+    displayRandomQuote();
+    populateCategories();
+  } catch (error) {
+    console.error('Failed to fetch from server:', error);
+  }
 }
+
 function clearLocalStorage() {
   localStorage.clear();
   alert('Local storage cleared!');
