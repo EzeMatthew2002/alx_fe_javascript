@@ -315,6 +315,30 @@ async function postQuoteToServer(quote) {
 
 postQuoteToServer(newQuote);
 
+async function syncQuotes() {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const serverQuotes = await response.json();
+
+    // Simulate syncing by replacing or merging quotes
+    // Here, we treat the server quotes as the source of truth (overwrite local)
+    localStorage.setItem('quotes', JSON.stringify(serverQuotes));
+    
+    console.log('Quotes synced from server');
+    alert('Quotes successfully synced with server (mock)');
+  } catch (error) {
+    console.error('Error syncing quotes:', error);
+  }
+}
+
+setInterval(syncQuotes, 30000); // Sync every 30 seconds
+
+window.onload = () => {
+  loadQuotes();          // your existing load logic
+  syncQuotes();          // sync from mock server
+  populateCategories();  // update UI
+};
+
 
 // On load
 loadQuotes();
